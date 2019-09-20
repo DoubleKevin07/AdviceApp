@@ -1,0 +1,53 @@
+<head>
+    <meta charset="UTF-8">
+    <meta name="Author" content="Kevin">
+    <meta name="Keywords" content="">
+    <meta name="Description" content="Home">
+    <link href="css/index.css" rel="stylesheet" type="text/css" />
+    <title>Positive Advice the Program</title>
+</head>
+
+<body>
+    <script src="main.js"></script>
+    <script src="https://unpkg.com/compromise@latest/builds/compromise.min.js"></script>
+    <div class="green_border">
+        <h1>What's up?</h1>
+        <hr>
+        <p id="content" class="bodycontent">
+            <from id="my_problems" class="problem_form">
+                My problem: <input type="text" id="my_problem"><br>
+                <input type="button" onclick="get_advice()" value="Get Advice"> <br>You can get your advice here. Just enter what you want to feel better about. :D
+        </p>
+    </div>
+
+    <script>
+        transition_show();
+
+        function get_advice() {
+            var content = document.getElementById("content");
+            transition_show();
+            var the_problem = document.getElementById("my_problem").value;
+            the_problem = the_problem.replace(/I am /g, "you are ");
+            the_problem = the_problem.replace(/I /g, "you "); // Replace Is with Yous
+            the_problem = the_problem.replace(/I'm /g, "you're "); // Replace Is with Yous
+            the_problem = the_problem.replace(/my /g, "your ");
+            the_problem = the_problem.replace(/My /g, "your ");
+            the_problem = the_problem.replace(/me /g, "you ");
+            the_problem = the_problem.replace(/ me./g, " you.");
+
+            var doc = nlp(the_problem);
+            //doc = doc.sentences().toPresentTense().toLowerCase();
+            doc.verbs().conjugate();
+
+
+            the_problem = doc.out();
+
+
+
+            // Let's trim the first word
+            content.innerHTML = `<h1>I am sorry to hear ${the_problem}</h1> <br> <h1>Everything will be OK. :)`;
+
+        }
+    </script>
+
+</body>
